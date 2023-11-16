@@ -2,10 +2,18 @@ import pandas as pd
 import itertools
 import random
 import math
-from timeit import default_timer as timer
+from pprint import pprint
+import warnings
+
+from typing import Dict, List, Tuple
+
+# suppress future warnings
+warnings.simplefilter(action="ignore", category=FutureWarning)
 
 
 def GrBinaryIPFDelta(rank, group):
+    # print(type(rank[0]))
+    # pprint(group)
     Rho0 = []
     Rho1 = []
     for i in rank:
@@ -32,9 +40,13 @@ def GrBinaryIPFDelta(rank, group):
     while len(Rho0) != 0 or len(Rho1) != 0:
         if P1count >= len(Rho1):
             Rout.extend(Rho0[P0count : len(Rho0)])
+            # print("=============================")
+            # print(type(Rout[0]))
             return Rout
         if P0count >= len(Rho0):
             Rout.extend(Rho1[P1count : len(Rho1)])
+            # print("=============================")
+            # print(type(Rout[0]))
             return Rout
 
         if P1count < len(Rho1) and P0count < len(Rho0):
@@ -69,76 +81,65 @@ def GrBinaryIPFDelta(rank, group):
     return Rout
 
 
-def kendalTau(P, Q):
-    qInv = {}
-    pInv = {}
-    for key in P:
-        # print(key, P[key])
-        val = P[key]
-        pInv[val] = key
-    for key in Q:
-        # print(key, Q[key])
-        val = Q[key]
-        qInv[val] = key
-
-    qTrans = {}
-    # qTransInv = {}
-    for key in Q:
-        # print(key, Q[key])
-        value = Q[key]
-        newVal = pInv[value]
-        qTrans[key] = newVal
-        # qTransInv[newVal] = key
-
-    dis = 0
-    for key in qTrans:
-        dis = dis + abs(key - qTrans[key])
-
-    return dis
+def KendallTau(
+    P: Dict[int, int], Q: Dict[int, int], combinations: List[Tuple[int, int]]
+) -> int:
+    distance: int = 0
+    for tup in combinations:
+        if P[tup[0]] < P[tup[1]] and Q[tup[1]] < Q[tup[0]]:
+            distance += 1
+    return distance
 
 
 data = pd.read_pickle(r"./top25_dfs.pickle")[1]
+
 num_of_player = 30
-# data = data[0:num_of_player]
+
 data = data.transpose()
-players = data.keys()
+# Result: rows are ranks and columns are players
 
-itemList = data.keys()
-G1 = []
-G2 = []
-row = data.iloc[25, :num_of_player]
-for i in range(0, num_of_player):
-    if row[i] == 0:
-        G1.append(players[i])
-    else:
-        G2.append(players[i])
+# Layout of the dataframe after transpose:
+#          player1  player2 player3 ...
+# Rank1    10       9       8
+# Rank2    9        10      8
+# ...
+# Rank24   1        2       3
+# Rank     1        1       1
+# Division 1        0       0
 
-p1 = len(G1) / len(itemList)
-p2 = len(G2) / len(itemList)
+# Note for conversion to Java:
+# We can convert the pickle file to a csv in the desired format so we don't
+# need to transpose the data in Java. We can read the CSV and store it as a
+# Map<String, Map<String, Integer>> where the outer map is the rank and the
+# inner map is the player name and their rank.
+data.to_csv(r"./top25_dfs.csv")
+
+# Example:
+# playerMap = new HashMap<String, Map<String, Integer>>();
+# playerMap.put("Rank1", new HashMap<String, Integer>());
+# playerMap.get("Rank1").put("Adam Thielen", 10);
+# playerMap.put("Rank", new HashMap<String, Integer>());
+# playerMap.get("Rank").put("Adam Thielen", 9);
+# playerMap.put("Division", new HashMap<String, Integer>());
+# playerMap.get("Division").put("Adam Thielen", 1);
 
 
+# get the 26th row, get all columns
+# In the dataframe, the 26th row is Division.
 groupInfo = data.iloc[25, :]
 
-playeridDic = {}
-j = 0
-for p in players:
-    playeridDic[p] = j
-    j = j + 1
-
-# group = {}
-# j = 0
-# for i in groupInfo:
-#     group[j] = i
-#     j = j + 1
-
-inputRankList = []
-
-start = timer()
+# To do this in Java, we can use our playerMap and get the "Division" key and
+# get all the inner maps (player names and their ranks).
 
 
 result = []
 for rankIds in range(0, 25):
     rankinfo = data.iloc[rankIds, :num_of_player]
+    # To do this iloc call, we can get the rank from the playerMap and get the
+    # inner map for that rank. Then we can iterate through the inner map and
+    # get the player names and their ranks. We need to consider the max number
+    # of columns that we want to get.
+
     ranktup = []
     j = 0
     for i in rankinfo:
@@ -165,17 +166,7 @@ for i in range(0, len(rank)):
 combinations = [p for p in itertools.product(items, repeat=2)]
 print("combinations", len(combinations))
 
-
-def KendallTau(P, Q, combinations):
-    distance = 0
-    for tup in combinations:
-        if int(P[tup[0]]) < int(P[tup[1]]) and int(Q[tup[1]]) < int(Q[tup[0]]):
-            distance = distance + 1
-    return distance
-
-
 # rand rapf result
-
 
 minAvg = 10000000
 
