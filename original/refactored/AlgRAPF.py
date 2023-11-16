@@ -1,10 +1,7 @@
 import pandas as pd
 import itertools
-import random
-import math
-from pprint import pprint
 import warnings
-
+from pprint import pprint
 from typing import Dict, List, Tuple
 
 # suppress future warnings
@@ -127,6 +124,7 @@ data.to_csv(r"./top25_dfs.csv")
 # get the 26th row, get all columns
 # In the dataframe, the 26th row is Division.
 groupInfo = data.iloc[25, :]
+# Result: groupInfo contains the division of each player
 
 # To do this in Java, we can use our playerMap and get the "Division" key and
 # get all the inner maps (player names and their ranks).
@@ -140,25 +138,41 @@ for rankIds in range(0, 25):
     # get the player names and their ranks. We need to consider the max number
     # of columns that we want to get.
 
+    # rankInfo contains the rank of each player in the current rank
+    # print(rankinfo)
     ranktup = []
     j = 0
     for i in rankinfo:
         ranktup.append((i, j))
         j = j + 1
     ranktup.sort()
+    # ranktup i is the rank of the player, j is the player id
+
+    # print(ranktup)
+    # print("-----")
+
     rank = []
 
     for i, j in ranktup:
         rank.append(j)
 
+    # print(rank)
+
     group = {}
     for i in range(0, len(rank)):
         group[i] = groupInfo[i]
 
-    rout = GrBinaryIPFDelta(rank, group)
-    result.append((rank, rout))
-    # print(rout)
+    # print(len(group))
+    # print(group)
+    # print(len(groupInfo))
+    # print(groupInfo)
 
+    rout = GrBinaryIPFDelta(rank, group)
+    # print("rout", rout)
+    # print("rank", rank)
+    result.append((rank, rout))
+
+print(result)
 
 items = []
 for i in range(0, len(rank)):
@@ -172,15 +186,21 @@ minAvg = 10000000
 
 for rankPicked, fairRankPicked in result:
     distance = 0
-    for rank, fairRank in result:
+    for origrank, fairRank in result:
         P = {}
         Q = {}
         for i in range(0, len(rank)):
-            P[rank[i]] = i
+            P[origrank[i]] = i
             Q[fairRankPicked[i]] = i
 
         distance = distance + KendallTau(P, Q, combinations)
+        # print("distance", distance)
+
     avgDistance = distance / len(result)
+    # print("len(result)", len(result))
+    # print("distance", distance)
+    # print("avgDistance", avgDistance)
+    # print("minAvg", minAvg)
     # print(avgDistance)
     if avgDistance < minAvg:
         minAvg = avgDistance
