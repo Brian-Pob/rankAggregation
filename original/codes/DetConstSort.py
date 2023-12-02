@@ -1,3 +1,11 @@
+import os
+import pandas as pd
+
+from GrBinaryIPF import * #from GrBinaryIPF import GrBinaryIPF  #the import below causes import error when called
+import math
+import matplotlib.pyplot as plt
+import warnings #used to remove warnings from creator's source code file
+
 def DetConstSort(S,A,P,kmax):
     counts = {}
     minCounts = {}
@@ -40,19 +48,13 @@ def DetConstSort(S,A,P,kmax):
     return (rankedAttList, rankedScoreList)
 
 
+#supresses furture warnigns from source code
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
-
-
-import pandas as pd
-import os
-import pandas as pd
-from GrBinaryIPF import GrBinaryIPF
-import math
-import matplotlib.pyplot as plt
-
+#read file path from import
+script_directory = os.path.dirname(os.getcwd())
 fpath =  "data/top25_dfs.pickle"
-
-
+fpath = os.path.join(script_directory, fpath)
 
 object = pd.read_pickle(fpath)
 
@@ -61,10 +63,10 @@ num_of_player = 30
 data = data[0:num_of_player]
 data = data.transpose()
 players = data.keys()
-data
+#data
 
 
-
+itemList = data.keys()
 G1 = []
 G2 = []
 row = data.iloc[25, :]
@@ -77,6 +79,7 @@ for i in range(0,num_of_player):
 p1 = len(G1)/len(itemList)
 p2 = len(G2)/len(itemList)
 
+print("values of p1 is {}\nvalue of p2 is {}".format(p1,p2))
 
 rank = data.iloc[1, :]
 
