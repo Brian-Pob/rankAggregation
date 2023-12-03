@@ -1,7 +1,12 @@
+import os
 import pandas as pd
 import random
 import math
+import timeit
 from timeit import default_timer as timer
+import warnings #used to remove warnings from creator's source code file
+#supresses furture warnigns from source code
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 def GrBinaryIPFDelta(rank,group):
     Rho0 = []
@@ -67,8 +72,6 @@ def GrBinaryIPFDelta(rank,group):
 
     return  Rout
 
-import timeit
-
 
 def kendalTau(P,Q):
     qInv = {}
@@ -99,12 +102,16 @@ def kendalTau(P,Q):
 
 
 
+#read file path from import
+script_directory = os.path.dirname(os.getcwd())
+fpath =  "data/top25_dfs.pickle"
+fpath = os.path.join(script_directory, fpath)
 
-object = pd.read_pickle(r'./top25_dfs.pickle')
+object = pd.read_pickle(fpath) #object = pd.read_pickle(r'./top25_dfs.pickle')
 
 data = object[1]
 num_of_player = 30
-#data = data[0:num_of_player]
+data = data[0:num_of_player]
 data = data.transpose()
 players = data.keys()
 

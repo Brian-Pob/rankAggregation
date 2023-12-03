@@ -1,7 +1,12 @@
+import os
 import pandas as pd
 import random
 import math
+import itertools
 from timeit import default_timer as timer
+import warnings #used to remove warnings from creator's source code file
+#supresses furture warnigns from source code
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 def GrBinaryIPFDelta(rank,group):
     Rho0 = []
@@ -67,8 +72,6 @@ def GrBinaryIPFDelta(rank,group):
 
     return  Rout
 
-import timeit
-
 
 def kendalTau(P,Q):
     qInv = {}
@@ -99,15 +102,14 @@ def kendalTau(P,Q):
 
 
 
+#allows to read from relative path 
+script_directory = os.path.dirname(os.getcwd())
+fpath = 'data/top25_dfs.pickle'
+fpath = os.path.join(script_directory, fpath)
 
-
-
-
-
-
-import pandas as pd
-
-object = pd.read_pickle(r'data/top25_dfs.pickle')
+#original is a relative read
+#object = pd.read_pickle(r'data/top25_dfs.pickle')
+object = pd.read_pickle(fpath)
 
 data = object[1]
 num_of_player = 50
@@ -173,10 +175,6 @@ for rankIds in range(0,1):
     rout = GrBinaryIPFDelta(rank, group)
     result.append((rank,rout))
     #print(rout)
-
-
-
-import itertools
 
 items = []
 for i in range(0,len(rank)):

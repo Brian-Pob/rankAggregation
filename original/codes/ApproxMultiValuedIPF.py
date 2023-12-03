@@ -1,17 +1,19 @@
+import os
 import pandas as pd
 import random
 import math
-
-import networkx as nx
 import networkx as nx
 from networkx.algorithms import bipartite
 import random
 import math
 
+#allows to read from relative path 
+script_directory = os.path.dirname(os.getcwd())
+fpath = 'data/unique_200.csv'
+fpath = os.path.join(script_directory, fpath)
+df = pd.read_csv(fpath) #df = pd.read_csv('data/unique_200.csv')
 
-df = pd.read_csv('data/unique_200.csv')
-
-allGenre = []
+#allGenre = []
 group = []
 genre = df['genre']
 result = []

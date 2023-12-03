@@ -168,4 +168,3 @@ for i in range(0,len(rankList)):
     sumKTau = sumKTau + ktau
 avgKTau = sumKTau/len(rankList)
 print(avgKTau)
-
