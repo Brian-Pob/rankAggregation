@@ -197,12 +197,9 @@ def KendallTau(P,Q,combinations):
 
 #rand rapf result
 pick =  0 #random.randint(0,len(result) - 1)
-#print(pick)
 rankpicked,fairRankPicked =  result[pick]
-print(rankpicked)
 distance  = 0
 for rank, fairRank in result:
-    print(result)
 
     P = {}
     Q = {}

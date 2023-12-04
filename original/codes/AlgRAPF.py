@@ -116,7 +116,6 @@ data = data.transpose()
 players = data.keys()
 
 itemList = data.keys()
-print(itemList)
 
 G1 = []
 G2 = []
@@ -214,6 +213,5 @@ for rankPicked,fairRankPicked in result:
         minAvg = avgDistance
 
 print('minAvg', minAvg)
-
 
 
