@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import random
 import math
+import timeit
 from timeit import default_timer as timer
 import warnings #used to remove warnings from creator's source code file
 
@@ -70,6 +71,7 @@ def GrBinaryIPFDelta(rank,group):
     return  Rout
 
 import timeit
+
 
 def kendalTau(P,Q):
     qInv = {}
