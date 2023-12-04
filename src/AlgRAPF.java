@@ -84,15 +84,15 @@ public class AlgRAPF {
 
             List<Integer> rout = computeGrBinaryIPFDelta(rank, group);
 //            System.out.println("rout " + rout);
-            System.out.print("rank ");
+//            System.out.print("rank ");
             for (int i = 0; i < rank.size(); i++) {
-                System.out.print(rank.get(i) + " ");
+//                System.out.print(rank.get(i) + " ");
             }
-            System.out.println();
+//            System.out.println();
             result.add(new Pair<>(rank, rout));
 //            print result
             for (Pair<List<Integer>, List<Integer>> pair: result){
-                System.out.println(pair.getFirst() + " " + pair.getSecond());
+//                System.out.println(pair.getFirst() + " " + pair.getSecond());
             }
         }
 
@@ -145,7 +145,6 @@ public class AlgRAPF {
         }
 
         System.out.println("minAvg " + minAvg);
-
 
     }
 
