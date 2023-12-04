@@ -17,11 +17,13 @@ Then, select the file containing the algorithm you wish to run. Finally, click R
 
 This project relies on [OpenCSV](https://sourceforge.net/projects/opencsv/). The JAR file for OpenCSV should already be included in the project src folder.
 
-## Contributors
+## Workload
 
-- Mark Mori
-- Chris Pierre-Paul
-- Brian Poblete
+| Contributor | Description |
+| --- | ----------- |
+| Mark Mori | ApproxMultiValuedIPF algorithm, Documentation|
+| Chris Pierre-Paul | DetConstSort algorithm, GRBinaryIPF algorithm, Documentation|
+| Brian Poblete | AlgRAPF algorithm, RandAlgRAPF algorithm, Documentation|
 
 ## References
 Dong Wei, Md Mouinul Islam, Baruch Schieber, and Senjuti Basu Roy. 2022. Rank Aggregation with Proportionate Fairness. In Proceedings of the 2022 International Conference on Management of Data (SIGMOD '22). Association for Computing Machinery, New York, NY, USA, 262–275. https://doi.org/10.1145/3514221.3517865
