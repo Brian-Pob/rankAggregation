@@ -154,7 +154,6 @@ start = timer()
 result = []
 for rankIds in range(0,1):
     rankinfo = data.iloc[rankIds, :num_of_player]
-    
     ranktup = []
     j = 0
     for i in rankinfo:
@@ -198,9 +197,11 @@ def KendallTau(P,Q,combinations):
 #rand rapf result
 pick =  0 #random.randint(0,len(result) - 1)
 rankpicked,fairRankPicked =  result[pick]
+
+print(rankpicked, type(rankpicked))
+print(fairRankPicked, type(fairRankPicked))
 distance  = 0
 for rank, fairRank in result:
-
     P = {}
     Q = {}
     for i in range(0,len(rank)):
