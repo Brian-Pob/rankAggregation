@@ -71,7 +71,6 @@ def GrBinaryIPFDelta(rank,group):
 
 import timeit
 
-
 def kendalTau(P,Q):
     qInv = {}
     pInv = {}
@@ -96,7 +95,7 @@ def kendalTau(P,Q):
     dis = 0
     for key in qTrans:
         dis = dis + abs(key - qTrans[key])
-
+    
     return dis
 
 
@@ -114,17 +113,20 @@ fpath = os.path.join(script_directory, fpath)
 
 object = pd.read_pickle(fpath)
 
-
 data = object[1]
 num_of_player = 50
-#data = data[0:num_of_player]
+data = data[0:num_of_player]
+
 data = data.transpose()
 players = data.keys()
-
 itemList = data.keys()
+
+
 G1 = []
 G2 = []
 row = data.iloc[25, :num_of_player]
+
+
 for i in range(0,num_of_player):
     if(row[i] == 0):
         G1.append(players[i])
@@ -134,8 +136,7 @@ for i in range(0,num_of_player):
 p1 = len(G1)/len(itemList)
 p2 = len(G2)/len(itemList)
 
-
-groupInfo = data.iloc[25, :]
+groupInfo = data.iloc[25, :] #division row
 
 playeridDic = {}
 j = 0
@@ -143,22 +144,15 @@ for p in players :
     playeridDic[p] = j
     j = j + 1
 
-# group = {}
-# j = 0
-# for i in groupInfo:
-#     group[j] = i
-#     j = j + 1
 
 inputRankList = []
-
 start = timer()
-
 
 
 result = []
 for rankIds in range(0,1):
-
     rankinfo = data.iloc[rankIds, :num_of_player]
+    
     ranktup = []
     j = 0
     for i in rankinfo:
@@ -175,12 +169,12 @@ for rankIds in range(0,1):
     for i in range(0,len(rank)):
         group[i] = groupInfo[i]
 
-
     rout = GrBinaryIPFDelta(rank, group)
-    result.append((rank,rout))
     #print(rout)
+    result.append((rank,rout))
 
-print(rout)
+#normally uncommented
+#print(rout)
 
 import itertools
 
@@ -188,6 +182,7 @@ items = []
 for i in range(0,len(rank)):
     items.append(i)
 combinations = [p for p in itertools.product(items, repeat=2)]
+#print(combinations)
 print(len(combinations))
 
 def KendallTau(P,Q,combinations):
@@ -202,9 +197,10 @@ def KendallTau(P,Q,combinations):
 pick =  0 #random.randint(0,len(result) - 1)
 #print(pick)
 rankpicked,fairRankPicked =  result[pick]
-
+print(rankpicked)
 distance  = 0
 for rank, fairRank in result:
+    print(result)
 
     P = {}
     Q = {}

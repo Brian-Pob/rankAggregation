@@ -116,6 +116,8 @@ data = data.transpose()
 players = data.keys()
 
 itemList = data.keys()
+print(itemList)
+
 G1 = []
 G2 = []
 row = data.iloc[25, :num_of_player]
@@ -127,7 +129,6 @@ for i in range(0,num_of_player):
 
 p1 = len(G1)/len(itemList)
 p2 = len(G2)/len(itemList)
-
 
 groupInfo = data.iloc[25, :]
 
@@ -213,7 +214,6 @@ for rankPicked,fairRankPicked in result:
         minAvg = avgDistance
 
 print('minAvg', minAvg)
-
 
 
 
