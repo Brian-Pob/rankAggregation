@@ -1,6 +1,6 @@
 /* ApproxMultiValuedIPF.java
  * 
- * Implements a P-fair gauranteed, Kendall-Tau Distance minimization
+ * Implements a P-fair guaranteed, Kendall-Tau Distance minimization
  * approxmiation algorithm.
  * 
  * Currently, the reads in a test case from a sample CSV, but is 
@@ -39,8 +39,10 @@ public class ApproxMultiValuedIPF {
         {
             result=line.split(",");
             OrderedProtectedAttribute.add(result[1]); 
-            // list is ordered from lowest to highest rated
-            // will flip later
+            // list in file is ordered from lowest to highest rated
+            // Our function assumes the order is highest to lowest
+            // So we will reverse this.
+            
             line=infile.readLine();
         
         }
@@ -54,9 +56,10 @@ public class ApproxMultiValuedIPF {
             OrderedProtectedAttribute.set(OrderedProtectedAttribute.size()-i-1,temp);
         }
 
-
+        //Calling function to return P-fair list
         List<Integer> final_order = P_fair_order(OrderedProtectedAttribute);
 
+        //Printing the P-fair list in 
         System.out.println("\nOriginal Ranking:\tAttribute: \t\tNew Ranking:\t\tAttribute:");
         for(int i=0;i<OrderedProtectedAttribute.size();i++)
         {
@@ -65,6 +68,11 @@ public class ApproxMultiValuedIPF {
         }
     }
 
+
+
+    // Takes in a list of ordered information regarding the protected attribute of
+    // candidates in a ranking, and returns an integer the new P-fair order which 
+    // is approximately closest to their Objective Position. 
     public static ArrayList<Integer> P_fair_order(ArrayList<String> ObjectiveOrder) {
             
             //Counting the number of unique attributes, and their frequency
@@ -134,8 +142,8 @@ public class ApproxMultiValuedIPF {
                 System.out.print("\n\n");
             }*/
 
+        
             //Construct our P-fair approximation
-
             int array[]=new int[matrix.length];
             for (int i=0; i<matrix.length; ++i)
             {
