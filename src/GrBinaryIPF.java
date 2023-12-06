@@ -16,7 +16,7 @@ public class GrBinaryIPF
     {
 
     // Specify the relative file path
-    String filePath = "../top25_dfs.csv";
+    String filePath = "top25_dfs.csv";
 
     LinkedHashMap<String, LinkedHashMap<String, Integer>> playerMap = new LinkedHashMap<>();
     try {
